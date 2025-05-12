@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class User {
+public class UserModel {
 
     @Id
     @Column(name = "email")

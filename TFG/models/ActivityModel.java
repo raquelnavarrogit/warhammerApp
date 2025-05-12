@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 /*@Cacheable //es para indicar que es almacenable en la cache. Se usa con cosas que no se modifican habitualmente, puede mejorar el rendimiento pero solo si se usa bien.
 //@Cache(usage= CacheConcurrencyStrategy., region = , expiry = ) aquí indicamos cómo usar la cache.*/
-public class Activity {
+public class ActivityModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
