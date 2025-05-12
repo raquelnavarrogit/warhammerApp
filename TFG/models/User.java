@@ -1,113 +1,36 @@
 package TFG.TFG.models;
 
-import jakarta.persistence.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="USERS")
+@Table(name="users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 public class User {
 
-    @Column(name = "USERNAME", nullable = false, unique=true)
-    private String username;
-
     @Id
-    @Column(name = "EMAIL", nullable = false, unique=true)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "username", nullable = false, unique=true)
+    private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "POINTS")
+    @Column(name = "points")
     private int points;
 
-    @Column(name = "LEVEL")
+    @Column(name = "level")
     private String level;
 
-    @ManyToMany
-    @JoinTable(
-            name = "USER_EVENT",
-            joinColumns = @JoinColumn(name = "USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "EVENT_ID")
-    )
-    private List<Event> events;
-
-    @ManyToMany
-    @JoinTable(
-            name = "USER_WORKSHOP",
-            joinColumns = @JoinColumn(name = "USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "WORKSHOP_ID")
-    )
-    private Set<Workshop> workshops = new HashSet<>();
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public Set<Workshop> getWorkshops() {
-        return workshops;
-    }
-
-    public void setWorkshops(Set<Workshop> workshops) {
-        this.workshops = workshops;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", points=" + points +
-                ", level='" + level + '\'' +
-                ", events=" + events.stream().map(Event::getName).toList() +
-                ", workshops=" + workshops.stream().map(Workshop::getName).toList() +
-                '}';
-    }
 }
