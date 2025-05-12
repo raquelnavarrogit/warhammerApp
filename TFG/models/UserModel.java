@@ -42,8 +42,8 @@ public class UserModel {
     @ManyToMany
     @JoinTable(
             name = "users_activities",
-            joinColumns = { @JoinColumn(name = "user_id")},
-            inverseJoinColumns = { @JoinColumn(name = "activity_id")}
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "activity_id")}
     )
     private List<ActivityModel> activities = new ArrayList<>();
 
