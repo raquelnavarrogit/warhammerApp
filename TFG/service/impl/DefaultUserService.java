@@ -1,6 +1,7 @@
 package TFG.TFG.service.impl;
 
 import TFG.TFG.daos.UserDao;
+import TFG.TFG.models.ActivityModel;
 import TFG.TFG.models.UserModel;
 import TFG.TFG.service.UserService;
 import jakarta.annotation.Resource;
@@ -40,12 +41,35 @@ public class DefaultUserService implements UserService {
 
     @Override
     public boolean saveActivity(String email, int activityId) {
-
-        return false;
+        UserModel user = userDao.findById(email).get();
+        ActivityModel activity = user.getActivities()
+                .stream()
+                .filter(a -> a.getId() == activityId)
+                .findFirst()
+                .orElse(null);
+        try {
+            user.getActivities().add(activity);
+            userDao.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override
     public boolean deleteActivity(String email, int activityId) {
-        return false;
+        UserModel user = userDao.findById(email).get();
+        ActivityModel activity = user.getActivities()
+                .stream()
+                .filter(a -> a.getId() == activityId)
+                .findFirst()
+                .orElse(null);
+        try{
+            user.getActivities().remove(activity);
+            userDao.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
