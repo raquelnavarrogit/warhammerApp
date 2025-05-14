@@ -10,7 +10,7 @@ public interface UserService {
 
         Optional<UserModel> getUserByEmail(String email);
 
-        boolean saveUser(String username, String email, String password);
+        UserModel saveUser(String username, String email, String password);
 
         boolean saveActivity(String email, int activityId);
 

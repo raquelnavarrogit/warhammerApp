@@ -20,21 +20,27 @@ public class DefaultUserService implements UserService {
 
     @Override
     public boolean login(String email, String password) {
+        //password stuff logic.
         return false;
     }
 
     @Override
     public Optional<UserModel> getUserByEmail(String email) {
-        return Optional.empty();
+        return userDao.findById(email);
     }
 
     @Override
-    public boolean saveUser(String username, String email, String password) {
-        return false;
+    public UserModel saveUser(String username, String email, String password) {
+        UserModel user = new UserModel();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPassword(password);
+        return userDao.save(user);
     }
 
     @Override
     public boolean saveActivity(String email, int activityId) {
+
         return false;
     }
 
