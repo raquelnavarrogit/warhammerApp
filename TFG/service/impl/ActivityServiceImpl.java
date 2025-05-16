@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Data
@@ -22,7 +23,7 @@ public class ActivityServiceImpl implements ActivityService {
     private final UserDao userDao;
 
     @Override
-    public ActivityModel getActivityById(int activityId) {
+    public Optional<ActivityModel> getActivityById(int activityId) {
         return activityDao.getActivityModelById(activityId);
     }
 

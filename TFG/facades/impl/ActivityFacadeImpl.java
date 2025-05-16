@@ -2,15 +2,19 @@ package TFG.TFG.facades.impl;
 
 import TFG.TFG.converters.ActivityDtoToActivityModel;
 import TFG.TFG.converters.ActivityModelToActivityDto;
+import TFG.TFG.dtos.ActivityDto;
 import TFG.TFG.facades.ActivityFacade;
-import TFG.TFG.models.ActivityModel;
 import TFG.TFG.service.impl.ActivityServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+@Service
 @Getter
 @RequiredArgsConstructor
 public class ActivityFacadeImpl implements ActivityFacade {
@@ -23,12 +27,16 @@ public class ActivityFacadeImpl implements ActivityFacade {
     private final ActivityDtoToActivityModel activityDtoToActivityModel;
 
     @Override
-    public ActivityModel getActivityById(int activityId) {
-        return null;
+    public Optional<ActivityDto> getActivityById(int activityId) {
+        return activityService.getActivityById(activityId)
+                              .map(activityModelToActivityDto::convert);
     }
 
     @Override
-    public List<ActivityModel> getAllActivities() {
-        return List.of();
+    public List<ActivityDto> getAllActivities() {
+        List<ActivityDto> activities = new ArrayList<>();
+        activityService.getAllActivities()
+                       .forEach(activityModel -> activities.add(activityModelToActivityDto.convert(activityModel)));
+        return activities;
     }
 }
