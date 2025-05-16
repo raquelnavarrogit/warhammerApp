@@ -1,5 +1,7 @@
 package TFG.TFG.facades.impl;
 
+import TFG.TFG.converters.UserDtoToUserModel;
+import TFG.TFG.converters.UserModelToUserDto;
 import TFG.TFG.facades.UserFacade;
 import TFG.TFG.models.UserModel;
 import TFG.TFG.service.impl.DefaultUserService;
@@ -17,12 +19,13 @@ public class DefaultUserFacade implements UserFacade {
 
     @Resource
     private final DefaultUserService userService;
-    //Dto's missing.
+    @Resource
+    private final UserDtoToUserModel userDtoToUserModel;
+    @Resource
+    private final UserModelToUserDto userModelToUserDto;
 
     @Override
-    public boolean login(String email, String password) {
-        return false;
-    }
+    public boolean login(String email, String password) {return false;}
 
     @Override
     public Optional<UserModel> getUserByEmail(String email) {
