@@ -1,7 +1,6 @@
-package TFG.TFG.facades;
+package com.example.demo.facades;
 
-import TFG.TFG.dtos.ActivityDto;
-import TFG.TFG.models.ActivityModel;
+import com.example.demo.dtos.ActivityDto;
 
 import java.util.List;
 import java.util.Optional;

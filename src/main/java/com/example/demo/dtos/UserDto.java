@@ -1,6 +1,6 @@
-package TFG.TFG.dtos;
+package com.example.demo.dtos;
 
-import TFG.TFG.models.ActivityModel;
+import com.example.demo.models.ActivityModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

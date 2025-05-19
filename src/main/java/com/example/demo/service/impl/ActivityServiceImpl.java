@@ -1,9 +1,10 @@
-package TFG.TFG.service.impl;
+package com.example.demo.service.impl;
 
-import TFG.TFG.daos.ActivityDao;
-import TFG.TFG.daos.UserDao;
-import TFG.TFG.models.ActivityModel;
-import TFG.TFG.service.ActivityService;
+
+import com.example.demo.daos.ActivityDao;
+import com.example.demo.daos.UserDao;
+import com.example.demo.models.ActivityModel;
+import com.example.demo.service.ActivityService;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,11 @@
-package TFG.TFG.facades.impl;
+package com.example.demo.facades.impl;
 
-import TFG.TFG.converters.ActivityDtoToActivityModel;
-import TFG.TFG.converters.ActivityModelToActivityDto;
-import TFG.TFG.dtos.ActivityDto;
-import TFG.TFG.facades.ActivityFacade;
-import TFG.TFG.service.impl.ActivityServiceImpl;
+import com.example.demo.converters.ActivityDtoToActivityModel;
+import com.example.demo.converters.ActivityModelToActivityDto;
+
+import com.example.demo.dtos.ActivityDto;
+import com.example.demo.facades.ActivityFacade;
+import com.example.demo.service.impl.ActivityServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,11 @@
-package TFG.TFG.facades.impl;
+package com.example.demo.facades.impl;
 
-import TFG.TFG.converters.UserDtoToUserModel;
-import TFG.TFG.converters.UserModelToUserDto;
-import TFG.TFG.facades.UserFacade;
-import TFG.TFG.models.UserModel;
-import TFG.TFG.service.impl.DefaultUserService;
+import com.example.demo.converters.UserDtoToUserModel;
+import com.example.demo.converters.UserModelToUserDto;
+import com.example.demo.facades.UserFacade;
+
+import com.example.demo.models.UserModel;
+import com.example.demo.service.impl.DefaultUserService;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

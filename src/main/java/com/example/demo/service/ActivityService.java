@@ -1,6 +1,7 @@
-package TFG.TFG.service;
+package com.example.demo.service;
 
-import TFG.TFG.models.ActivityModel;
+
+import com.example.demo.models.ActivityModel;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,7 +1,8 @@
-package TFG.TFG.converters;
+package com.example.demo.converters;
 
-import TFG.TFG.dtos.UserDto;
-import TFG.TFG.models.UserModel;
+
+import com.example.demo.dtos.UserDto;
+import com.example.demo.models.UserModel;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

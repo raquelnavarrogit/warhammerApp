@@ -1,7 +1,7 @@
-package TFG.TFG.converters;
+package com.example.demo.converters;
 
-import TFG.TFG.dtos.ActivityDto;
-import TFG.TFG.models.ActivityModel;
+import com.example.demo.dtos.ActivityDto;
+import com.example.demo.models.ActivityModel;
 import org.springframework.core.convert.converter.Converter;
 
 public class ActivityDtoToActivityModel implements Converter<ActivityDto, ActivityModel> {
