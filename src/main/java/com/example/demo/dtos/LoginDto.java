@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginModel {
+public class LoginDto {
 
     private String email;
     private String password;
