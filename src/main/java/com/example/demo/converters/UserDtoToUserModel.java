@@ -4,7 +4,9 @@ package com.example.demo.converters;
 import com.example.demo.dtos.UserDto;
 import com.example.demo.models.UserModel;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserDtoToUserModel implements Converter<UserDto, UserModel> {
 
     @Override
