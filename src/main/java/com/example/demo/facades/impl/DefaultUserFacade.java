@@ -2,6 +2,7 @@ package com.example.demo.facades.impl;
 
 import com.example.demo.converters.UserDtoToUserModel;
 import com.example.demo.converters.UserModelToUserDto;
+import com.example.demo.dtos.RegisterDto;
 import com.example.demo.facades.UserFacade;
 
 import com.example.demo.models.UserModel;
@@ -26,9 +27,6 @@ public class DefaultUserFacade implements UserFacade {
     private final UserModelToUserDto userModelToUserDto;
 
     @Override
-    public boolean login(String email, String password) {return false;}
-
-    @Override
     public Optional<UserModel> getUserByEmail(String email) {
         return Optional.empty();
     }
@@ -46,5 +44,10 @@ public class DefaultUserFacade implements UserFacade {
     @Override
     public boolean deleteActivity(String email, int activityId) {
         return false;
+    }
+
+    @Override
+    public void registerUser(RegisterDto registerDto) {
+        userService.registerUser(registerDto);
     }
 }

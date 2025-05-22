@@ -2,12 +2,14 @@ package com.example.demo.service.impl;
 
 
 import com.example.demo.daos.UserDao;
+import com.example.demo.dtos.RegisterDto;
 import com.example.demo.models.ActivityModel;
 import com.example.demo.models.UserModel;
 import com.example.demo.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,12 +21,8 @@ public class DefaultUserService implements UserService {
 
     @Resource
     private final UserDao userDao;
-
-    @Override
-    public boolean login(String email, String password) {
-        //password stuff logic.
-        return false;
-    }
+    @Resource
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<UserModel> getUserByEmail(String email) {
@@ -52,7 +50,7 @@ public class DefaultUserService implements UserService {
             user.getActivities().add(activity);
             userDao.save(user);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
@@ -65,12 +63,26 @@ public class DefaultUserService implements UserService {
                 .filter(a -> a.getId() == activityId)
                 .findFirst()
                 .orElse(null);
-        try{
+        try {
             user.getActivities().remove(activity);
             userDao.save(user);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public void registerUser(RegisterDto registerDto) {
+
+        Optional<UserModel> user = userDao.findById(registerDto.getEmail());
+        user.ifPresent(u -> {throw new IllegalArgumentException("Email ya registrado");});
+
+        UserModel userModel = new UserModel();
+        userModel.setUsername(registerDto.getUsername());
+        userModel.setEmail(registerDto.getEmail());
+        userModel.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+
+        userDao.save(userModel);
     }
 }
