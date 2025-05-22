@@ -3,9 +3,11 @@ package com.example.demo.facades;
 
 
 import com.example.demo.models.UserModel;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public interface UserFacade {
 
     boolean login(String email, String password);
