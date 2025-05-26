@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class ActivityDto {
 
     @NotBlank
-    private int id;
+    private Long id;
     @NotBlank
     private String name;
     private String description;
