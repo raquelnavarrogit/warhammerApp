@@ -45,6 +45,9 @@ public class UserController {
     @Resource
     private ActivityFacade activityFacade;
 
+    /*
+    Endpoint to register a new user.
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDto dto) {
         try {
@@ -55,6 +58,9 @@ public class UserController {
         }
     }
 
+    /*
+    Endpoint to save an activity for a user.
+     */
     @PatchMapping("/saveActivity/{userEmail}/{activityId}")
     public ResponseEntity<?> saveActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId) {
         UserModel user = userFacade.getUserByEmail(userEmail).get();
@@ -66,11 +72,17 @@ public class UserController {
         return ResponseEntity.badRequest().body("Problem registering activity.");
     }
 
+    /*
+    Endpoint to get a user by email.
+     */
     @GetMapping("/{email}")
     public UserDto listUser(@PathVariable @NotBlank @Email String email) {
         return userModelToUserDto.convert(userFacade.getUserByEmail(email).get());
     }
 
+    /*
+    Endpoint to delete an activity for a user.
+     */
     @PatchMapping("deleteActivity/{userEmail}/{activityId}") //not sure if this is okay.
     public ResponseEntity<?> deleteActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId) {
         UserModel user = userFacade.getUserByEmail(userEmail).get();
