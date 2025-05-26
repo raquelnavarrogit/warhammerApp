@@ -3,15 +3,12 @@ package com.example.demo.facades.impl;
 import com.example.demo.converters.UserDtoToUserModel;
 import com.example.demo.converters.UserModelToUserDto;
 import com.example.demo.facades.UserFacade;
-
-import com.example.demo.models.ActivityModel;
 import com.example.demo.models.UserModel;
 import com.example.demo.service.impl.DefaultUserService;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 

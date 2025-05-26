@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PatchMapping("/saveActivity/{userEmail}/{activityId}")
-    public ResponseEntity<?> saveActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId ) {
+    public ResponseEntity<?> saveActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId) {
         UserModel user = userFacade.getUserByEmail(userEmail).get();
         ActivityModel activity = activityDtoToActivityModel.convert(activityFacade.getActivityById(activityId).get());
         user.getActivities().add(activity);
@@ -67,12 +67,12 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public UserDto listUser(@PathVariable @NotBlank @Email String email){
+    public UserDto listUser(@PathVariable @NotBlank @Email String email) {
         return userModelToUserDto.convert(userFacade.getUserByEmail(email).get());
     }
 
     @PatchMapping("deleteActivity/{userEmail}/{activityId}") //not sure if this is okay.
-    public ResponseEntity<?> deleteActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId ) {
+    public ResponseEntity<?> deleteActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId) {
         UserModel user = userFacade.getUserByEmail(userEmail).get();
         ActivityModel activity = activityDtoToActivityModel.convert(activityFacade.getActivityById(activityId).get());
         user.getActivities().remove(activity);

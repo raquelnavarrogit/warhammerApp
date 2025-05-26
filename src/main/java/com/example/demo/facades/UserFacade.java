@@ -1,8 +1,6 @@
 package com.example.demo.facades;
 
 
-
-import com.example.demo.models.ActivityModel;
 import com.example.demo.models.UserModel;
 import org.springframework.stereotype.Service;
 
