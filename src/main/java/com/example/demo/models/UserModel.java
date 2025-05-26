@@ -49,7 +49,6 @@ public class UserModel {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "activity_id")}
     )
-    @Builder.Default
     private List<ActivityModel> activities = new ArrayList<>();
 
     @Column(name = "role")

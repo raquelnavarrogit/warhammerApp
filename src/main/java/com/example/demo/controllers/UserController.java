@@ -6,7 +6,7 @@ import com.example.demo.converters.UserDtoToUserModel;
 import com.example.demo.converters.UserModelToUserDto;
 import com.example.demo.dtos.RegisterDto;
 import com.example.demo.dtos.UserDto;
-import com.example.demo.facades.ActivityFacade;
+import com.example.demo.facades.impl.ActivityFacadeImpl;
 import com.example.demo.facades.impl.DefaultUserFacade;
 import com.example.demo.models.ActivityModel;
 import com.example.demo.models.UserModel;
@@ -43,7 +43,7 @@ public class UserController {
     @Resource
     private ActivityDtoToActivityModel activityDtoToActivityModel;
     @Resource
-    private ActivityFacade activityFacade;
+    private ActivityFacadeImpl activityFacade;
 
     /*
     Endpoint to register a new user.
