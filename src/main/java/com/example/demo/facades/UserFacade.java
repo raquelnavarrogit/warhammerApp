@@ -13,9 +13,9 @@ public interface UserFacade {
 
     Optional<UserModel> getUserByEmail(String email);
 
-    void saveUser(UserModel user);
+    UserModel saveUser(UserModel user);
 
-    boolean saveActivity(UserModel user, ActivityModel activity);
+    boolean saveActivity(UserModel user);
 
     boolean deleteActivity(UserModel user, ActivityModel activity);
 }

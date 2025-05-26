@@ -11,6 +11,7 @@ import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -27,12 +28,12 @@ public class DefaultUserFacade implements UserFacade {
     private final UserModelToUserDto userModelToUserDto;
 
     @Override
-    public void saveUser(UserModel user) {
+    public UserModel saveUser(UserModel user) {
         Optional<UserModel> userModel = userService.getUserByEmail(user.getEmail());
         userModel.ifPresent(u -> {
             throw new IllegalArgumentException("Email already registered.");
         });
-        userService.saveUser(user);
+        return userService.saveUser(user);
     }
 
     @Override
@@ -41,8 +42,8 @@ public class DefaultUserFacade implements UserFacade {
     }
 
     @Override
-    public boolean saveActivity(UserModel user, ActivityModel activity) {
-        return userService.saveActivity(user, activity);
+    public boolean saveActivity(UserModel user) {
+        return userService.saveActivity(user);
     }
 
     @Override

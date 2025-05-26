@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ActivityDao extends JpaRepository<ActivityModel, Long> {
-    Optional<ActivityModel> getActivityModelById(int id);
+    Optional<ActivityModel> getActivityModelById(Long id);
 }

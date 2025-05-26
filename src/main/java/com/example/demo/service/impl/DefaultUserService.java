@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 
+import com.example.demo.daos.ActivityDao;
 import com.example.demo.daos.UserDao;
 import com.example.demo.dtos.RegisterDto;
 import com.example.demo.models.ActivityModel;
@@ -9,6 +10,7 @@ import com.example.demo.service.UserService;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class DefaultUserService implements UserService {
 
     @Resource
     private final UserDao userDao;
+    @Resource
+    private ActivityDao activityDao;
 //    @Resource
 //    private final PasswordEncoder passwordEncoder;
 
@@ -36,9 +40,8 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public boolean saveActivity(UserModel user, ActivityModel activity) {
+    public boolean saveActivity(UserModel user) {
         try {
-            user.getActivities().add(activity);
             userDao.save(user);
             return true;
         } catch (Exception e) {
@@ -48,6 +51,6 @@ public class DefaultUserService implements UserService {
 
     @Override
     public boolean deleteActivity(UserModel user, ActivityModel activity) {
-       return false;
+        return false;
     }
 }
