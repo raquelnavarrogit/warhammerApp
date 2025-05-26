@@ -70,4 +70,15 @@ public class UserController {
     public UserDto listUser(@PathVariable @NotBlank @Email String email){
         return userModelToUserDto.convert(userFacade.getUserByEmail(email).get());
     }
+
+    @PatchMapping("deleteActivity/{userEmail}/{activityId}") //not sure if this is okay.
+    public ResponseEntity<?> deleteActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId ) {
+        UserModel user = userFacade.getUserByEmail(userEmail).get();
+        ActivityModel activity = activityDtoToActivityModel.convert(activityFacade.getActivityById(activityId).get());
+        user.getActivities().remove(activity);
+        if (userFacade.saveActivity(user)) {
+            return ResponseEntity.ok("Activity deleted successfully");
+        }
+        return ResponseEntity.badRequest().body("Problem deleting activity.");
+    }
 }

@@ -16,6 +16,4 @@ public interface UserFacade {
     UserModel saveUser(UserModel user);
 
     boolean saveActivity(UserModel user);
-
-    boolean deleteActivity(UserModel user, ActivityModel activity);
 }

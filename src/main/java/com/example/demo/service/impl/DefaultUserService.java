@@ -48,9 +48,4 @@ public class DefaultUserService implements UserService {
             return false;
         }
     }
-
-    @Override
-    public boolean deleteActivity(UserModel user, ActivityModel activity) {
-        return false;
-    }
 }
