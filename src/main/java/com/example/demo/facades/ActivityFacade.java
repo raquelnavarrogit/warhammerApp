@@ -9,7 +9,7 @@ import java.util.Optional;
 @Service
 public interface ActivityFacade {
 
-    public Optional<ActivityDto> getActivityById(int activityId);
+    public Optional<ActivityDto> getActivityById(Long activityId);
 
     public List<ActivityDto> getAllActivities();
 }

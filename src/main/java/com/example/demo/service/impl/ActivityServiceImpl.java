@@ -24,7 +24,7 @@ public class ActivityServiceImpl implements ActivityService {
     private final UserDao userDao;
 
     @Override
-    public Optional<ActivityModel> getActivityById(int activityId) {
+    public Optional<ActivityModel> getActivityById(Long activityId) {
         return activityDao.getActivityModelById(activityId);
     }
 

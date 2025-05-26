@@ -1,8 +1,6 @@
 package com.example.demo.facades;
 
 
-
-import com.example.demo.dtos.RegisterDto;
 import com.example.demo.models.UserModel;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +11,7 @@ public interface UserFacade {
 
     Optional<UserModel> getUserByEmail(String email);
 
-    UserModel saveUser(String username, String email, String password);
+    UserModel saveUser(UserModel user);
 
-    boolean saveActivity(String email, int activityId);
-
-    boolean deleteActivity(String email, int activityId);
-
-    void registerUser(RegisterDto registerDto);
+    boolean saveActivity(UserModel user);
 }

@@ -28,7 +28,7 @@ public class ActivityFacadeImpl implements ActivityFacade {
     private final ActivityDtoToActivityModel activityDtoToActivityModel;
 
     @Override
-    public Optional<ActivityDto> getActivityById(int activityId) {
+    public Optional<ActivityDto> getActivityById(Long activityId) {
         return activityService.getActivityById(activityId)
                               .map(activityModelToActivityDto::convert);
     }

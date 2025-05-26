@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ActivityService {
 
-    Optional<ActivityModel> getActivityById(int activityId);
+    Optional<ActivityModel> getActivityById(Long activityId);
 
     List<ActivityModel> getAllActivities();
 }

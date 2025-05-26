@@ -32,7 +32,7 @@ public class ActivityModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -62,7 +62,7 @@ public class ActivityModel {
     @ManyToMany(mappedBy = "activities")
     private List<UserModel> users = new ArrayList<>();
 
-    public ActivityModel(int id, String name, String description, LocalDateTime time, LocalDate day, String image, int duration, int place, ActivityType type) {
+    public ActivityModel(Long id, String name, String description, LocalDateTime time, LocalDate day, String image, int duration, int place, ActivityType type) {
         this.id = id;
         this.name = name;
         this.description = description;
