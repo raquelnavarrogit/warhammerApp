@@ -10,6 +10,7 @@ import com.example.demo.facades.impl.DefaultUserFacade;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,13 +41,11 @@ public class UserController {
         }
     }
 
-    @PostMapping("/saveActivity")
-    public ResponseEntity<?> saveActivity(@RequestBody @Valid UserDto userDto, ActivityDto activityDto) {
+    @PatchMapping("/saveActivity")
+    public ResponseEntity<?> saveActivity(@RequestBody @Valid UserDto userDto, @RequestBody @Valid ActivityDto activityDto) { //esto está mal. Tengo que ver cuál de los dos quiero completo y cuál solo el id.
         if (userFacade.saveActivity(userDtoToUserModel.convert(userDto), activityDtoToActivityModel.convert(activityDto))) {
             return ResponseEntity.ok("Activity registered successfully");
         }
         return ResponseEntity.badRequest().body("Problem registering activity.");
     }
-
-
 }

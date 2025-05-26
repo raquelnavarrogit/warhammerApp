@@ -47,19 +47,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public boolean deleteActivity(String email, int activityId) {
-        UserModel user = userDao.findById(email).get();
-        ActivityModel activity = user.getActivities()
-                .stream()
-                .filter(a -> a.getId() == activityId)
-                .findFirst()
-                .orElse(null);
-        try {
-            user.getActivities().remove(activity);
-            userDao.save(user);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public boolean deleteActivity(UserModel user, ActivityModel activity) {
+       return false;
     }
 }

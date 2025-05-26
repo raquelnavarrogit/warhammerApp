@@ -46,7 +46,7 @@ public class DefaultUserFacade implements UserFacade {
     }
 
     @Override
-    public boolean deleteActivity(String email, int activityId) {
+    public boolean deleteActivity(UserModel user, ActivityModel activity) {
         return false;
     }
 }

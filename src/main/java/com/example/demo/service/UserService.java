@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dtos.RegisterDto;
 import com.example.demo.models.ActivityModel;
 import com.example.demo.models.UserModel;
 
@@ -14,5 +13,5 @@ public interface UserService {
 
         boolean saveActivity(UserModel user, ActivityModel activity);
 
-        boolean deleteActivity(String email, int activityId);
+        boolean deleteActivity(UserModel user, ActivityModel activity);
     }
