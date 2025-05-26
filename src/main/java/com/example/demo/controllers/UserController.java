@@ -3,7 +3,9 @@ package com.example.demo.controllers;
 import com.example.demo.converters.ActivityDtoToActivityModel;
 import com.example.demo.converters.RegisterDtoToUserModel;
 import com.example.demo.converters.UserDtoToUserModel;
+import com.example.demo.converters.UserModelToUserDto;
 import com.example.demo.dtos.RegisterDto;
+import com.example.demo.dtos.UserDto;
 import com.example.demo.facades.ActivityFacade;
 import com.example.demo.facades.impl.DefaultUserFacade;
 import com.example.demo.models.ActivityModel;
@@ -13,9 +15,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +38,8 @@ public class UserController {
     private RegisterDtoToUserModel registerDtoToUserModel;
     @Resource
     private UserDtoToUserModel userDtoToUserModel;
+    @Resource
+    private UserModelToUserDto userModelToUserDto;
     @Resource
     private ActivityDtoToActivityModel activityDtoToActivityModel;
     @Resource
@@ -60,5 +64,10 @@ public class UserController {
             return ResponseEntity.ok("Activity registered successfully");
         }
         return ResponseEntity.badRequest().body("Problem registering activity.");
+    }
+
+    @GetMapping("/{email}")
+    public UserDto listUser(@PathVariable @NotBlank @Email String email){
+        return userModelToUserDto.convert(userFacade.getUserByEmail(email).get());
     }
 }
