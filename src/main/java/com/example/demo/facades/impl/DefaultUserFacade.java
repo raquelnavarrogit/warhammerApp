@@ -2,9 +2,9 @@ package com.example.demo.facades.impl;
 
 import com.example.demo.converters.UserDtoToUserModel;
 import com.example.demo.converters.UserModelToUserDto;
-import com.example.demo.dtos.RegisterDto;
 import com.example.demo.facades.UserFacade;
 
+import com.example.demo.models.ActivityModel;
 import com.example.demo.models.UserModel;
 import com.example.demo.service.impl.DefaultUserService;
 import jakarta.annotation.Resource;
@@ -27,27 +27,26 @@ public class DefaultUserFacade implements UserFacade {
     private final UserModelToUserDto userModelToUserDto;
 
     @Override
+    public void saveUser(UserModel user) {
+        Optional<UserModel> userModel = userService.getUserByEmail(user.getEmail());
+        userModel.ifPresent(u -> {
+            throw new IllegalArgumentException("Email already registered.");
+        });
+        userService.saveUser(user);
+    }
+
+    @Override
     public Optional<UserModel> getUserByEmail(String email) {
-        return Optional.empty();
+        return userService.getUserByEmail(email);
     }
 
     @Override
-    public UserModel saveUser(String username, String email, String password) {
-        return null;
-    }
-
-    @Override
-    public boolean saveActivity(String email, int activityId) {
-        return false;
+    public boolean saveActivity(UserModel user, ActivityModel activity) {
+        return userService.saveActivity(user, activity);
     }
 
     @Override
     public boolean deleteActivity(String email, int activityId) {
         return false;
-    }
-
-    @Override
-    public void registerUser(RegisterDto registerDto) {
-        userService.registerUser(registerDto);
     }
 }

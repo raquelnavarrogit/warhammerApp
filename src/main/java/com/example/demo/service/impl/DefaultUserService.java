@@ -21,8 +21,8 @@ public class DefaultUserService implements UserService {
 
     @Resource
     private final UserDao userDao;
-    @Resource
-    private final PasswordEncoder passwordEncoder;
+//    @Resource
+//    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<UserModel> getUserByEmail(String email) {
@@ -30,22 +30,13 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public UserModel saveUser(String username, String email, String password) {
-        UserModel user = new UserModel();
-        user.setEmail(email);
-        user.setUsername(username);
-        user.setPassword(password);
+    public UserModel saveUser(UserModel user) {
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userDao.save(user);
     }
 
     @Override
-    public boolean saveActivity(String email, int activityId) {
-        UserModel user = userDao.findById(email).get();
-        ActivityModel activity = user.getActivities()
-                .stream()
-                .filter(a -> a.getId() == activityId)
-                .findFirst()
-                .orElse(null);
+    public boolean saveActivity(UserModel user, ActivityModel activity) {
         try {
             user.getActivities().add(activity);
             userDao.save(user);
@@ -70,19 +61,5 @@ public class DefaultUserService implements UserService {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    @Override
-    public void registerUser(RegisterDto registerDto) {
-
-        Optional<UserModel> user = userDao.findById(registerDto.getEmail());
-        user.ifPresent(u -> {throw new IllegalArgumentException("Email ya registrado");});
-
-        UserModel userModel = new UserModel();
-        userModel.setUsername(registerDto.getUsername());
-        userModel.setEmail(registerDto.getEmail());
-        userModel.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-
-        userDao.save(userModel);
     }
 }

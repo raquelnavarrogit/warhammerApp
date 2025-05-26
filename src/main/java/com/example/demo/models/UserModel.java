@@ -7,10 +7,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -47,7 +50,14 @@ public class UserModel {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "activity_id")}
     )
+    @Builder.Default
     private List<ActivityModel> activities = new ArrayList<>();
+
+    @Column(name = "role")
+    private String role;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     public UserModel(String email, String username, String level, int points, List<ActivityModel> activities) {
         this.email = email;
@@ -57,4 +67,9 @@ public class UserModel {
         this.activities = activities;
     }
 
+    public UserModel(@Email @NotBlank String email, @NotBlank String username, @NotBlank String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 }
