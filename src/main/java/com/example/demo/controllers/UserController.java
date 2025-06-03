@@ -5,6 +5,7 @@ import com.example.demo.converters.RegisterDtoToUserModel;
 import com.example.demo.converters.UserDtoToUserModel;
 import com.example.demo.converters.UserModelToUserDto;
 import com.example.demo.dtos.RegisterDto;
+import com.example.demo.dtos.SaveActivityDto;
 import com.example.demo.dtos.UserDto;
 import com.example.demo.facades.impl.ActivityFacadeImpl;
 import com.example.demo.facades.impl.DefaultUserFacade;
@@ -14,11 +15,9 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,14 +44,17 @@ public class UserController {
     @Resource
     private ActivityFacadeImpl activityFacade;
 
+    private UserModel user;
+    private ActivityModel activity;
+
     /*
     Endpoint to register a new user.
      */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDto dto) {
         try {
-            UserModel userModel = userFacade.saveUser(Objects.requireNonNull(registerDtoToUserModel.convert(dto)));
-            return ResponseEntity.ok("User registered successfully." + userModel);
+           user = userFacade.saveUser(Objects.requireNonNull(registerDtoToUserModel.convert(dto)));
+            return ResponseEntity.ok("User registered successfully." + user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Problem registering user.");
         }
@@ -61,10 +63,19 @@ public class UserController {
     /*
     Endpoint to save an activity for a user.
      */
-    @PatchMapping("/saveActivity/{userEmail}/{activityId}")
-    public ResponseEntity<?> saveActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId) {
-        UserModel user = userFacade.getUserByEmail(userEmail).get();
-        ActivityModel activity = activityDtoToActivityModel.convert(activityFacade.getActivityById(activityId).get());
+    @PostMapping("/saveActivity")
+    public ResponseEntity<?> saveActivity(@RequestBody @Valid SaveActivityDto dto) {
+
+        String userEmail = dto.getUserEmail();
+        long activityId = dto.getActivityId();
+
+        try{
+           user = userFacade.getUserByEmail(userEmail).get();
+           activity = activityDtoToActivityModel.convert(activityFacade.getActivityById(activityId).get());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Problem getting user or activity.");
+        }
+
         user.getActivities().add(activity);
         if (userFacade.saveActivity(user)) {
             return ResponseEntity.ok("Activity registered successfully");
@@ -77,20 +88,35 @@ public class UserController {
      */
     @GetMapping("/{email}")
     public UserDto listUser(@PathVariable @NotBlank @Email String email) {
-        return userModelToUserDto.convert(userFacade.getUserByEmail(email).get());
+        try{
+            return userModelToUserDto.convert(userFacade.getUserByEmail(email).get());
+        }catch (Exception e){
+            return new UserDto();
+        }
     }
 
     /*
     Endpoint to delete an activity for a user.
      */
-    @PatchMapping("deleteActivity/{userEmail}/{activityId}") //not sure if this is okay.
-    public ResponseEntity<?> deleteActivity(@PathVariable @NotBlank @Email String userEmail, @PathVariable @NotBlank @Positive Long activityId) {
-        UserModel user = userFacade.getUserByEmail(userEmail).get();
-        ActivityModel activity = activityDtoToActivityModel.convert(activityFacade.getActivityById(activityId).get());
-        user.getActivities().remove(activity);
-        if (userFacade.saveActivity(user)) {
-            return ResponseEntity.ok("Activity deleted successfully");
+    @PostMapping("/deleteActivity")
+    public ResponseEntity<?> deleteActivity(@RequestBody @Valid SaveActivityDto dto) {
+
+        String userEmail = dto.getUserEmail();
+        long activityId = dto.getActivityId();
+
+        try{
+            user = userFacade.getUserByEmail(userEmail).get();
+            activity = activityDtoToActivityModel.convert(activityFacade.getActivityById(activityId).get());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Problem getting user or activity.");
         }
+
+        if (user.getActivities().removeIf(a -> a.getId().equals(activity.getId()))){
+            if (userFacade.saveActivity(user)) {
+                return ResponseEntity.ok("Activity deleted successfully");
+            }
+        }
+
         return ResponseEntity.badRequest().body("Problem deleting activity.");
     }
 }
