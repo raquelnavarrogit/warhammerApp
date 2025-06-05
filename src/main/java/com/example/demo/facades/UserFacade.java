@@ -13,5 +13,5 @@ public interface UserFacade {
 
     UserModel saveUser(UserModel user);
 
-    boolean saveActivity(UserModel user);
+    boolean updateUserActivities(UserModel user);
 }

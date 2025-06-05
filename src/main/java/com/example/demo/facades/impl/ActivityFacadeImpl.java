@@ -40,4 +40,9 @@ public class ActivityFacadeImpl implements ActivityFacade {
                        .forEach(activityModel -> activities.add(activityModelToActivityDto.convert(activityModel)));
         return activities;
     }
+
+    @Override
+    public void updateActivity(ActivityDto activityDto) {
+        activityService.updateActivity(activityDto);
+    }
 }

@@ -94,7 +94,11 @@ public class UserController {
         }
 
         user.getActivities().add(activity);
-        if (userFacade.saveActivity(user)) {
+        if (userFacade.updateUserActivities(user)) {
+            if (activity.getPlace() - 1 < 0){
+                return ResponseEntity.badRequest().body("This activity is not available");
+            }
+            activity.setPlace(activity.getPlace()-1);
             return ResponseEntity.ok("Activity registered successfully");
         }
         return ResponseEntity.badRequest().body("Problem registering activity.");
@@ -136,7 +140,7 @@ public class UserController {
         }
 
         if (user.getActivities().removeIf(a -> a.getId().equals(activity.getId()))) {
-            if (userFacade.saveActivity(user)) {
+            if (userFacade.updateUserActivities(user)) {
                 return ResponseEntity.ok("Activity deleted successfully");
             }
         }

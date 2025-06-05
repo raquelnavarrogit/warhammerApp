@@ -31,8 +31,6 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString(exclude = "users")
-/*@Cacheable //es para indicar que es almacenable en la cache. Se usa con cosas que no se modifican habitualmente, puede mejorar el rendimiento pero solo si se usa bien.
-//@Cache(usage= CacheConcurrencyStrategy., region = , expiry = ) aquí indicamos cómo usar la cache.*/
 public class ActivityModel {
 
     @Id

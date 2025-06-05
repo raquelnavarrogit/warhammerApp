@@ -39,7 +39,7 @@ public class DefaultUserFacade implements UserFacade {
     }
 
     @Override
-    public boolean saveActivity(UserModel user) {
-        return userService.saveActivity(user);
+    public boolean updateUserActivities(UserModel user) {
+        return userService.updateUserActivities(user);
     }
 }
