@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.converters.ActivityDtoToActivityModel;
-import com.example.demo.converters.ActivityModelToActivityDto;
 import com.example.demo.dtos.ActivityDto;
 import com.example.demo.facades.impl.ActivityFacadeImpl;
 import jakarta.annotation.Resource;
@@ -20,17 +18,22 @@ public class ActivityController {
 
     @Resource
     private ActivityFacadeImpl activityFacade;
-    @Resource
-    private ActivityDtoToActivityModel activityDtoToActivityModel;
-    @Resource
-    private ActivityModelToActivityDto activityModelToActivityDto;
 
+    /**
+     * Endpoint to get a specific activity based on the id.
+     * @param id activity id.
+     * @return activityDto that contains id, name, description, time, day, image, duration, place and type.
+     */
     @GetMapping("/{id}")
     public ActivityDto getActivityById(@PathVariable Long id) {
         Optional<ActivityDto> activityDto = activityFacade.getActivityById(id);
         return activityDto.orElseThrow(() -> new IllegalArgumentException("Activity not found."));
     }
 
+    /**
+     * Endpoints to get the activities' list.
+     * @return activities' list.
+     */
     @GetMapping
     public Iterable<ActivityDto> getAllActivities() {
         return activityFacade.getAllActivities();

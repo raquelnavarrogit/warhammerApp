@@ -11,9 +11,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder(toBuilder = true)
+@EqualsAndHashCode
+@ToString(exclude = "password")
 public class UserModel {
 
     @Id
@@ -38,10 +42,10 @@ public class UserModel {
     private String password;
 
     @Column(name = "points")
-    private int points;
+    private int points = 0;
 
     @Column(name = "level")
-    private String level;
+    private String level = "Servidor";
 
     @ManyToMany
     @JoinTable(
@@ -52,10 +56,10 @@ public class UserModel {
     private List<ActivityModel> activities = new ArrayList<>();
 
     @Column(name = "role")
-    private String role;
+    private String role = "ROLE_USER";
 
     @Column(name = "enabled")
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     public UserModel(String email, String username, String level, int points, List<ActivityModel> activities) {
         this.email = email;
