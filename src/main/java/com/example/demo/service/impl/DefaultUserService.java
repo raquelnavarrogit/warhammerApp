@@ -20,7 +20,7 @@ public class DefaultUserService implements UserService {
     @Resource
     private final UserDao userDao;
     @Resource
-    private ActivityDao activityDao;
+    private final ActivityDao activityDao;
 //    @Resource
 //    private final PasswordEncoder passwordEncoder;
 
@@ -36,7 +36,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public boolean saveActivity(UserModel user) {
+    public boolean updateUserActivities(UserModel user) {
         try {
             userDao.save(user);
             return true;

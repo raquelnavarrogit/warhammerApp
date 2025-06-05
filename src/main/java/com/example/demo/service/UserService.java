@@ -10,5 +10,5 @@ public interface UserService {
 
     UserModel saveUser(UserModel user);
 
-    boolean saveActivity(UserModel user);
+    boolean updateUserActivities(UserModel user);
 }
