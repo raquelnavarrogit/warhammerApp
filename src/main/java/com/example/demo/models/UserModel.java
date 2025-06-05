@@ -2,6 +2,8 @@ package com.example.demo.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -47,6 +49,10 @@ public class UserModel {
     @Column(name = "level")
     private String level = "Servidor";
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.valueOf("LOGGED_USER");
+
     @ManyToMany
     @JoinTable(
             name = "users_activities",
@@ -54,12 +60,6 @@ public class UserModel {
             inverseJoinColumns = {@JoinColumn(name = "activity_id")}
     )
     private List<ActivityModel> activities = new ArrayList<>();
-
-    @Column(name = "role")
-    private String role = "ROLE_USER";
-
-    @Column(name = "enabled")
-    private Boolean enabled = false;
 
     public UserModel(String email, String username, String level, int points, List<ActivityModel> activities) {
         this.email = email;
