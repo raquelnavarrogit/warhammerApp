@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.converters.ActivityDtoToActivityModel;
+import com.example.demo.converters.ActivityModelToActivityDto;
 import com.example.demo.converters.RegisterDtoToUserModel;
 import com.example.demo.dtos.LoginDto;
 import com.example.demo.dtos.RegisterDto;
@@ -35,6 +36,8 @@ public class UserController {
     private RegisterDtoToUserModel registerDtoToUserModel;
     @Resource
     private ActivityDtoToActivityModel activityDtoToActivityModel;
+    @Resource
+    private ActivityModelToActivityDto  activityModelToActivityDto;
     @Resource
     private ActivityFacadeImpl activityFacade;
 
@@ -99,6 +102,7 @@ public class UserController {
                 return ResponseEntity.badRequest().body("This activity is not available");
             }
             activity.setPlace(activity.getPlace()-1);
+            activityFacade.updateActivity(activityModelToActivityDto.convert(activity));
             return ResponseEntity.ok("Activity registered successfully");
         }
         return ResponseEntity.badRequest().body("Problem registering activity.");
@@ -141,6 +145,8 @@ public class UserController {
 
         if (user.getActivities().removeIf(a -> a.getId().equals(activity.getId()))) {
             if (userFacade.updateUserActivities(user)) {
+                activity.setPlace(activity.getPlace()+1);
+                activityFacade.updateActivity(activityModelToActivityDto.convert(activity));
                 return ResponseEntity.ok("Activity deleted successfully");
             }
         }
