@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.converters.ActivityDtoToActivityModel;
+import com.example.demo.converters.ActivityModelToActivityDto;
 import com.example.demo.converters.RegisterDtoToUserModel;
 import com.example.demo.dtos.LoginDto;
 import com.example.demo.dtos.RegisterDto;
@@ -8,6 +9,7 @@ import com.example.demo.dtos.SaveActivityDto;
 import com.example.demo.facades.impl.ActivityFacadeImpl;
 import com.example.demo.facades.impl.DefaultUserFacade;
 import com.example.demo.models.ActivityModel;
+import com.example.demo.models.Role;
 import com.example.demo.models.UserModel;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,6 +38,8 @@ public class UserController {
     private RegisterDtoToUserModel registerDtoToUserModel;
     @Resource
     private ActivityDtoToActivityModel activityDtoToActivityModel;
+    @Resource
+    private ActivityModelToActivityDto  activityModelToActivityDto;
     @Resource
     private ActivityFacadeImpl activityFacade;
 
@@ -93,12 +98,17 @@ public class UserController {
             return ResponseEntity.badRequest().body("Problem getting user or activity.");
         }
 
+        if (user.getRole()!= Role.LOGGED_USER){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+        }
+
         user.getActivities().add(activity);
         if (userFacade.updateUserActivities(user)) {
             if (activity.getPlace() - 1 < 0){
                 return ResponseEntity.badRequest().body("This activity is not available");
             }
             activity.setPlace(activity.getPlace()-1);
+            activityFacade.updateActivity(activityModelToActivityDto.convert(activity));
             return ResponseEntity.ok("Activity registered successfully");
         }
         return ResponseEntity.badRequest().body("Problem registering activity.");
@@ -141,10 +151,30 @@ public class UserController {
 
         if (user.getActivities().removeIf(a -> a.getId().equals(activity.getId()))) {
             if (userFacade.updateUserActivities(user)) {
+                activity.setPlace(activity.getPlace()+1);
+                activityFacade.updateActivity(activityModelToActivityDto.convert(activity));
                 return ResponseEntity.ok("Activity deleted successfully");
             }
         }
 
         return ResponseEntity.badRequest().body("Problem deleting activity.");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("User logged out successfully.");
+    }
+
+    @PostMapping("/guest")
+    public ResponseEntity<String> guest(HttpSession session) {
+        try{
+            ArrayList<ActivityModel> guestList = new ArrayList<>();
+            UserModel guest = new UserModel("guest@gmail.com","guest","123",0,"",Role.GUEST, guestList);
+            session.setAttribute("user", guest);
+            return ResponseEntity.ok("Guest logged successfully.");
+        }catch (Exception e){
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Problem logging as guest.");
+        }
     }
 }
