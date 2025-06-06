@@ -9,6 +9,7 @@ import com.example.demo.dtos.SaveActivityDto;
 import com.example.demo.facades.impl.ActivityFacadeImpl;
 import com.example.demo.facades.impl.DefaultUserFacade;
 import com.example.demo.models.ActivityModel;
+import com.example.demo.models.Role;
 import com.example.demo.models.UserModel;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -96,6 +98,10 @@ public class UserController {
             return ResponseEntity.badRequest().body("Problem getting user or activity.");
         }
 
+        if (user.getRole()!= Role.LOGGED_USER){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+        }
+
         user.getActivities().add(activity);
         if (userFacade.updateUserActivities(user)) {
             if (activity.getPlace() - 1 < 0){
@@ -152,5 +158,23 @@ public class UserController {
         }
 
         return ResponseEntity.badRequest().body("Problem deleting activity.");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("User logged out successfully.");
+    }
+
+    @PostMapping("/guest")
+    public ResponseEntity<String> guest(HttpSession session) {
+        try{
+            ArrayList<ActivityModel> guestList = new ArrayList<>();
+            UserModel guest = new UserModel("guest@gmail.com","guest","123",0,"",Role.GUEST, guestList);
+            session.setAttribute("user", guest);
+            return ResponseEntity.ok("Guest logged successfully.");
+        }catch (Exception e){
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Problem logging as guest.");
+        }
     }
 }
