@@ -3,9 +3,11 @@ package com.example.demo.controllers;
 import com.example.demo.converters.ActivityDtoToActivityModel;
 import com.example.demo.converters.ActivityModelToActivityDto;
 import com.example.demo.converters.RegisterDtoToUserModel;
+import com.example.demo.converters.UserModelToUserDto;
 import com.example.demo.dtos.LoginDto;
 import com.example.demo.dtos.RegisterDto;
 import com.example.demo.dtos.SaveActivityDto;
+import com.example.demo.dtos.UserDto;
 import com.example.demo.facades.impl.ActivityFacadeImpl;
 import com.example.demo.facades.impl.DefaultUserFacade;
 import com.example.demo.models.ActivityModel;
@@ -14,6 +16,7 @@ import com.example.demo.models.UserModel;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -45,6 +48,8 @@ public class UserController {
 
     private UserModel user;
     private ActivityModel activity;
+    @Autowired
+    private UserModelToUserDto userModelToUserDto;
 
     /**
      * EndPoint that logs the user in.
@@ -98,7 +103,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Problem getting user or activity.");
         }
 
-        if (user.getRole()!= Role.LOGGED_USER){
+        if (user.getRole()!= Role.LOGGED_USER && user.getRole() != Role.ADMIN) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
         }
 
@@ -128,7 +133,8 @@ public class UserController {
         }
 
         UserModel userModel = userFacade.getUserByEmail(ActualUser.toString()).orElse(null);
-        return ResponseEntity.ok(userModel);
+        UserDto userDto =  userModelToUserDto.convert(userModel);
+        return ResponseEntity.ok(userDto);
     }
 
     /**
