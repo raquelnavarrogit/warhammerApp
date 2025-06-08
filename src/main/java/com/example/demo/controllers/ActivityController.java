@@ -34,7 +34,7 @@ public class ActivityController {
     }
 
     /**
-     * Endpoints to get the activities' list.
+     * Endpoint to get the activities' list.
      * @return activities' list.
      */
     @GetMapping
@@ -42,6 +42,10 @@ public class ActivityController {
         return activityFacade.getAllActivities();
     }
 
+    /**
+     * Endpoint to get activities which type is workshop.
+     * @return a list with the activities.
+     */
     @GetMapping("/workshop")
     public Iterable<ActivityDto> getWorkshopActivities() {
         List<ActivityDto> activityDtos = activityFacade.getAllActivities();
@@ -56,6 +60,10 @@ public class ActivityController {
         return workshopActivities;
     }
 
+    /**
+     * Endpoint to get activities which type is event.
+     * @return a list with the activities.
+     */
     @GetMapping("/event")
     public Iterable<ActivityDto> getEventActivities() {
         List<ActivityDto> activityDtos = activityFacade.getAllActivities();
