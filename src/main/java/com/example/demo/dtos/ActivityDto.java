@@ -39,4 +39,15 @@ public class ActivityDto {
     @NotBlank
     private ActivityType type;
 
+
+    public ActivityDto(String name, String description, String image, LocalDateTime time, LocalDate day, int duration, int place, ActivityType type) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.time = time;
+        this.day = day;
+        this.duration = duration;
+        this.place = place;
+        this.type = type;
+    }
 }

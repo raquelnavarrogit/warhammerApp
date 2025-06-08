@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -53,7 +54,7 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private Role role = Role.valueOf("LOGGED_USER");
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_activities",
             joinColumns = {@JoinColumn(name = "user_id")},
