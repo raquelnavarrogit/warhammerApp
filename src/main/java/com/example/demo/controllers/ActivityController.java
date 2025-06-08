@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.dtos.ActivityDto;
 import com.example.demo.facades.impl.ActivityFacadeImpl;
+import com.example.demo.models.ActivityType;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -37,5 +40,33 @@ public class ActivityController {
     @GetMapping
     public Iterable<ActivityDto> getAllActivities() {
         return activityFacade.getAllActivities();
+    }
+
+    @GetMapping("/workshop")
+    public Iterable<ActivityDto> getWorkshopActivities() {
+        List<ActivityDto> activityDtos = activityFacade.getAllActivities();
+        List<ActivityDto> workshopActivities = new ArrayList<>();
+
+        for (ActivityDto activityDto : activityDtos) {
+            if (activityDto.getType() == ActivityType.WORKSHOP) {
+                workshopActivities.add(activityDto);
+            }
+        }
+
+        return workshopActivities;
+    }
+
+    @GetMapping("/event")
+    public Iterable<ActivityDto> getEventActivities() {
+        List<ActivityDto> activityDtos = activityFacade.getAllActivities();
+        List<ActivityDto> eventActivities = new ArrayList<>();
+
+        for (ActivityDto activityDto : activityDtos) {
+            if (activityDto.getType() == ActivityType.EVENT) {
+                eventActivities.add(activityDto);
+            }
+        }
+
+        return eventActivities;
     }
 }
