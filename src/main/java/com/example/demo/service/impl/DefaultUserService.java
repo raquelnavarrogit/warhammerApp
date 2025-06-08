@@ -21,8 +21,6 @@ public class DefaultUserService implements UserService {
     private final UserDao userDao;
     @Resource
     private final ActivityDao activityDao;
-//    @Resource
-//    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<UserModel> getUserByEmail(String email) {
@@ -31,7 +29,6 @@ public class DefaultUserService implements UserService {
 
     @Override
     public UserModel saveUser(UserModel user) {
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userDao.save(user);
     }
 
