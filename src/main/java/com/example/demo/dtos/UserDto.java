@@ -1,6 +1,7 @@
 package com.example.demo.dtos;
 
 import com.example.demo.models.ActivityModel;
+import com.example.demo.models.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class UserDto {
     private String email;
     @NotBlank
     private String username;
+    private Role role;
     private int points;
     private String level;
     private List<ActivityModel> activities;

@@ -107,11 +107,19 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
         }
 
+        for (ActivityModel activityModel : user.getActivities()) {
+            if (activityModel.getId() == activityId) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Activity already exists in your list.");
+            }
+        }
+
+        if (activity.getPlace() - 1 < 0){
+            return ResponseEntity.badRequest().body("This activity is not available");
+        }
+
         user.getActivities().add(activity);
         if (userFacade.updateUserActivities(user)) {
-            if (activity.getPlace() - 1 < 0){
-                return ResponseEntity.badRequest().body("This activity is not available");
-            }
+
             activity.setPlace(activity.getPlace()-1);
             activityFacade.updateActivity(activityModelToActivityDto.convert(activity));
             return ResponseEntity.ok("Activity registered successfully");
