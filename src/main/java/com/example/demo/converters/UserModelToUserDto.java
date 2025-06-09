@@ -14,7 +14,7 @@ public class UserModelToUserDto implements Converter<UserModel, UserDto> {
 
     @Override
     public UserDto convert(UserModel userModel) {
-        return new UserDto(userModel.getEmail(), userModel.getUsername(), userModel.getPoints(),
+        return new UserDto(userModel.getEmail(), userModel.getUsername(), userModel.getRole(), userModel.getPoints(),
                 userModel.getLevel(), userModel.getActivities());
     }
 }
